@@ -1,0 +1,12 @@
+name: pearson
+title: pearson
+username: ludwing-mj
+account: ludwing-mj
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 14978729
+bundleId: 10505702
+url: https://ludwing-mj.shinyapps.io/pearson/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

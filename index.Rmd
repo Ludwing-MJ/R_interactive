@@ -1,77 +1,78 @@
----  
-title: "Simulación Interactiva del Coeficiente de Correlación de Pearson"  
-format: 
-  html:
+---
+title: "Simulación Interactiva del Coeficiente de Correlación de Pearson"
+runtime: shiny
+output: 
+  html_document:
     theme: cosmo
-    css: |
-      body {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-      }
-      .main-container {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 15px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        margin: 20px;
-        padding: 30px;
-      }
-      .card {
-        background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
-        border: none;
-        border-radius: 12px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-        padding: 25px;
-        margin: 15px 0;
-      }
-      .slider-container {
-        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        padding: 25px;
-        border-radius: 15px;
-        margin: 20px 0;
-        box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
-      }
-      .slider-container .form-group {
-        margin-bottom: 0;
-      }
-      .slider-container label {
-        color: white;
-        font-weight: 600;
-        font-size: 18px;
-        margin-bottom: 15px;
-        display: block;
-      }
-      .slider-container .help-block {
-        color: rgba(255,255,255,0.9);
-        font-style: italic;
-        margin-top: 10px;
-      }
-      h1 {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-align: center;
-        font-weight: 700;
-        margin-bottom: 30px;
-      }
-      h4 {
-        color: #2c3e50;
-        font-weight: 600;
-        margin-bottom: 20px;
-      }
-server: shiny  
----  
+---
 
-::: {.main-container}
+<style>
+body {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  min-height: 100vh;
+}
+.main-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  margin: 20px;
+  padding: 30px;
+}
+.card {
+  background: linear-gradient(145deg, #ffffff, #f8f9ff);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+  padding: 25px;
+  margin: 15px 0;
+}
+.slider-container {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  padding: 25px;
+  border-radius: 15px;
+  margin: 20px 0;
+  box-shadow: 0 10px 30px rgba(79, 172, 254, 0.3);
+}
+.slider-container .form-group {
+  margin-bottom: 0;
+}
+.slider-container label {
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 15px;
+  display: block;
+}
+.slider-container .help-block {
+  color: rgba(255,255,255,0.9);
+  font-style: italic;
+  margin-top: 10px;
+}
+h1 {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+h4 {
+  color: #2c3e50;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+</style>
 
-```{r message=FALSE, warning=FALSE}  
-#| context: setup  
-library(shiny)  
-library(ggplot2)  
-library(DT)  
+---
+
+```{r setup, include=FALSE}
+library(shiny)
+library(ggplot2)
+library(DT)
 library(dplyr)
-  
-# Tabla de interpretación del coeficiente de correlación de Pearson  
-tabla_interpretacion <- data.frame(  
+
+# Tabla de interpretación del coeficiente de correlación de Pearson
+tabla_interpretacion <- data.frame(
   "Valor" = c("-1", "-0.90 a -0.99", "-0.70 a -0.89", "-0.40 a -0.69", "-0.20 a -0.39", "-0.01 a -0.19", "0", "0.01 a 0.19", "0.20 a 0.39", "0.40 a 0.69", "0.70 a 0.89", "0.90 a 0.99", "1"),
   "Clasificación" = c(
     "Correlación negativa grande y perfecta",
@@ -87,67 +88,67 @@ tabla_interpretacion <- data.frame(
     "Correlación positiva alta",
     "Correlación positiva muy alta",
     "Correlación positiva grande y perfecta"
-  )  
-)  
+  )
+)
 ```
+
+<div class="main-container">
+
+# Simulación Interactiva del Coeficiente de Correlación de Pearson
 
 ## Control Interactivo
 
-::: {.slider-container}
+<div class="slider-container">
 ```{r}
-#| panel: fill
 sliderInput("cor", "Coeficiente de correlación (r):",   
             min = -1, max = 1, value = 0, step = 0.01,
-            width = "100%")  
-helpText("Mueve la barra para observar cómo cambia el gráfico de dispersión según el valor de r.")  
+            width = "100%")
+helpText("Mueve la barra para observar cómo cambia el gráfico de dispersión según el valor de r.")
 ```
-:::
+</div>
 
 ## Visualización de Datos
 
-::: {.card}
+<div class="card">
 ```{r}
-#| panel: fill  
-plotOutput("scatterPlot", height = "600px")  
+plotOutput("scatterPlot", height = "600px")
 ```
-:::
+</div>
 
 ## Interpretación del Coeficiente
 
-::: {.card}
+<div class="card">
+#### Tabla de interpretación del coeficiente de correlación de Pearson
 ```{r}
-#| panel: fill  
-h4("Tabla de interpretación del coeficiente de correlación de Pearson")  
-DTOutput("tabla")  
+DTOutput("tabla")
 ```
-:::
+</div>
 
-```{r}
-#| context: server  
-output$scatterPlot <- renderPlot({  
-  set.seed(123)  
-  n <- 100  
-  r <- input$cor  
+```{r context="server"}
+output$scatterPlot <- renderPlot({
+  set.seed(123)
+  n <- 100
+  r <- input$cor
   
-  # Generar datos con correlación r  
-  x <- rnorm(n)  
-  y <- r * scale(x) + sqrt(1 - r^2) * rnorm(n)  
-  y <- as.numeric(scale(y))  
-  df <- data.frame(x, y)  
+  # Generar datos con correlación r
+  x <- rnorm(n)
+  y <- r * scale(x) + sqrt(1 - r^2) * rnorm(n)
+  y <- as.numeric(scale(y))
+  df <- data.frame(x, y)
   
   # Calcular R²
   r_squared <- r^2
   
   # Crear el gráfico
-  p <- ggplot(df, aes(x, y)) +  
+  p <- ggplot(df, aes(x, y)) +
     geom_point(color = "#3498db", alpha = 0.7, size = 3, stroke = 0.5) +
     geom_smooth(method = "lm", se = TRUE, color = "#e74c3c", size = 1.2, 
                 alpha = 0.3, fill = "#e74c3c") +
-    labs(  
-      x = "Variable X",  
-      y = "Variable Y",  
+    labs(
+      x = "Variable X",
+      y = "Variable Y",
       title = paste("Gráfico de Dispersión - Correlación de Pearson")
-    ) +  
+    ) +
     theme_minimal() +
     theme(
       plot.title = element_text(size = 18, hjust = 0.5, face = "bold", 
@@ -173,9 +174,9 @@ output$scatterPlot <- renderPlot({
       annotate("text", x = 2.15, y = 2.4, label = info_text,
                size = 5, fontface = "bold", color = "#2c3e50",
                hjust = 0.5, vjust = 0.5)
-})  
-  
-output$tabla <- renderDT({  
+})
+
+output$tabla <- renderDT({
   # Gradiente de colores que se acercan al verde a medida que aumenta la fuerza
   colores_gradiente <- c(
     "#f44336",  # Rojo (correlación perfecta negativa)
@@ -210,7 +211,7 @@ output$tabla <- renderDT({
         colores_gradiente
       )
     )
-})  
+})
 ```
 
-:::
+</div>
